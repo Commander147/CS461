@@ -20,10 +20,10 @@ namespace TestGame
         private SceneManager sceneManager;
         private GraphicsDevice gd;
         private SoundEffectInstance themeSong;
+        private KeyboardState oldPress;
         private string[] title;
         private Scene[] destination;
         private int selectedindex = 0;
-        private float timer = 0f;
 
         public MainMenu(int x, int y, int h, int w, ContentManager cm, GraphicsDevice gd, SceneManager sm, string[] title, Scene[] destination)
         {
@@ -59,8 +59,11 @@ namespace TestGame
 
         public override void UnloadContent()
         {
-            themeSong.Stop();
-            themeSong.Dispose();
+            if (themeSong.IsDisposed == false)
+            {
+                themeSong.Stop();
+                themeSong.Dispose();
+            }
         }
 
         public override void Draw(GameTime gametime)
@@ -91,25 +94,21 @@ namespace TestGame
             {
                 themeSong.Play();
             }
-            timer += (float)gametime.ElapsedGameTime.TotalMilliseconds;
             KeyboardState pressed = Keyboard.GetState();
-            if( timer > 150f){
-                timer = 0f;
-                if (pressed.IsKeyDown(Keys.Up))
+            if (pressed.IsKeyUp(Keys.Up) && oldPress.IsKeyDown(Keys.Up))
+            {
+                selectedindex--;
+                if (selectedindex < 0)
                 {
-                    selectedindex--;
-                    if (selectedindex < 0)
-                    {
-                        selectedindex = title.Length - 1;
-                    }
+                    selectedindex = title.Length - 1;
                 }
-                else if (pressed.IsKeyDown(Keys.Down))
+            }
+            if (pressed.IsKeyUp(Keys.Down) && oldPress.IsKeyDown(Keys.Down))
+            {
+                selectedindex++;
+                if (selectedindex > title.Length - 1)
                 {
-                    selectedindex++;
-                    if (selectedindex > title.Length - 1)
-                    {
-                        selectedindex = 0;
-                    }
+                    selectedindex = 0;
                 }
             }
             if (pressed.IsKeyDown(Keys.Enter))
@@ -126,6 +125,7 @@ namespace TestGame
                     sceneManager.addScene(destination[selectedindex]);
                 }
             }
+            oldPress = pressed;
         }
     }
 }

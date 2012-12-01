@@ -67,7 +67,7 @@ namespace TestGame
             //Console.WriteLine(movedata[(int)(position.Y/48 % 16), (int)(position.X/48 % 16)]);
             var newState = Keyboard.GetState();
             timer += (float)gametime.ElapsedGameTime.TotalMilliseconds;
-            Console.WriteLine(status);
+            //Console.WriteLine(status);
             switch (status)
             {
                 //(movedata[(int)(((position.Y + 48) / 48) % 16), (int)((position.X / 48) % 16)] == 0)

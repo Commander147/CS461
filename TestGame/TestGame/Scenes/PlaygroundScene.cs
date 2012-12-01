@@ -62,6 +62,7 @@ namespace TestGame
             monsterSprite = new Sprite(32*3,32*3,0,contentManager,graphicsDevice,movedata);
             line = new Texture2D(_graphicsDevice, 1, 1);
             line.SetData(new[] { Color.Black });
+            
         }
 
         private void LoadContent()
@@ -89,12 +90,12 @@ namespace TestGame
                     spritebatch.Draw(background[i, j], new Rectangle(j * 16 * 3, i * 16 * 3, 16 * 3, 16 * 3), Color.White);
                 }
             }
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    spritebatch.Draw(line, new Rectangle(0, 16 * i, _graphicsDevice.DisplayMode.Width, 1), Color.Black);
-            //    spritebatch.Draw(line, new Rectangle(16 * i, 0, 1, _graphicsDevice.DisplayMode.Height), Color.Black);
+            for (int i = 0; i < 50; i++)
+            {
+                spritebatch.Draw(line, new Rectangle(0, 16*3 * i, _graphicsDevice.DisplayMode.Width, 1), Color.Black);
+                spritebatch.Draw(line, new Rectangle(16 *3* i, 0, 1, _graphicsDevice.DisplayMode.Height), Color.Black);
 
-            //}
+            }
             //spritebatch.Draw(background, new Rectangle(0, 0, background.Width * 3, background.Height * 3), Color.White);
             spritebatch.End();
             monsterSprite.Draw(gametime);
@@ -107,6 +108,10 @@ namespace TestGame
             {
                 sceneManager.removeScene(this);
                 monsterSprite.position = new Vector2(32 * 3, 32 * 3);
+            }
+            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+            {
+                Console.WriteLine(Mouse.GetState().X + " " + Mouse.GetState().Y);
             }
         }
     }
