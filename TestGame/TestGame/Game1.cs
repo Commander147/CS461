@@ -29,7 +29,8 @@ namespace TestGame
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            this.Window.Title = @"Monsterpalooza";
+            this.Exiting += Game1_Exiting;
         }
 
         protected override void Initialize()
@@ -46,14 +47,12 @@ namespace TestGame
             //add Menu screen here
             player = new VideoPlayer();
             video = Content.Load<Video>("Video/Intro");
-            player.Play(video);
+            //player.Play(video);
         }
 
         protected override void LoadContent()
         {
-            
-            
-            
+
         }
 
         protected override void UnloadContent()
@@ -67,7 +66,7 @@ namespace TestGame
             if (scenemanager.exit)
             {
                 this.Exit();
-            }
+            } 
             else
             {
                 scenemanager.Update(gameTime);
@@ -92,9 +91,18 @@ namespace TestGame
             }
             else
             {
+                this.IsMouseVisible = true;
                 scenemanager.Draw(gameTime);
             }
             base.Draw(gameTime);
+        }
+
+        void Game1_Exiting(object sender, EventArgs e)
+        {
+            Console.WriteLine("Exit");
+            player.Dispose();
+            scenemanager.exit = true;
+            scenemanager.UnloadContent();
         }
     }
 }
