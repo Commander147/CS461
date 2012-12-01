@@ -21,28 +21,39 @@ namespace TestGame
 
         SceneManager scenemanager;
         GraphicsDeviceManager graphics;
+        SpriteBatch spritebatch;
+        Video video;
+        VideoPlayer player;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
         }
 
         protected override void Initialize()
         {
+            spritebatch = new SpriteBatch(GraphicsDevice);
             graphics.PreferredBackBufferWidth = 240 * 3;
             graphics.ApplyChanges();
             scenemanager = new SceneManager(Content, graphics.GraphicsDevice);
             //scenemanager.addScene(new PlaygroundScene(0,0,320,480,Content, graphics.GraphicsDevice));
-            string[] menuText = {"New Game","Continue","Settings","End Game"};
+            string[] menuText = { "New Game", "Continue", "Settings", "End Game" };
             Scene[] menuDest = new Scene[1];
-            menuDest[0] = new PlaygroundScene(0,0,320,480,Content, graphics.GraphicsDevice,scenemanager);
-            scenemanager.addScene(new MainMenu(0, 0, 320, 480, Content, graphics.GraphicsDevice,scenemanager,menuText,menuDest));
+            menuDest[0] = new PlaygroundScene(0, 0, 320, 480, Content, graphics.GraphicsDevice, scenemanager);
+            scenemanager.addScene(new MainMenu(0, 0, 320, 480, Content, graphics.GraphicsDevice, scenemanager, menuText, menuDest));
             //add Menu screen here
+            player = new VideoPlayer();
+            video = Content.Load<Video>("Video/Intro");
+            player.Play(video);
         }
 
         protected override void LoadContent()
         {
+            
+            
+            
         }
 
         protected override void UnloadContent()
@@ -66,7 +77,23 @@ namespace TestGame
 
         protected override void Draw(GameTime gameTime)
         {
-            scenemanager.Draw(gameTime);
+            Texture2D videoTexture = null;
+
+            if (player.State != MediaState.Stopped)
+            {
+                videoTexture = player.GetTexture();
+                if (videoTexture != null)
+                {
+                    spritebatch.Begin();
+                    spritebatch.Draw(videoTexture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
+                    spritebatch.End();
+                }
+
+            }
+            else
+            {
+                scenemanager.Draw(gameTime);
+            }
             base.Draw(gameTime);
         }
     }

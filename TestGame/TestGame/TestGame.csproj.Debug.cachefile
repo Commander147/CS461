@@ -1,6 +1,5 @@
 Content\Background.xnb
 Content\Sprites\player.xnb
-Content\Tiles\0.xnb
 Content\Tiles\1.xnb
 Content\Tiles\10.xnb
 Content\Tiles\11.xnb
@@ -27,8 +26,11 @@ Content\Tiles\6.xnb
 Content\Tiles\7.xnb
 Content\Tiles\8.xnb
 Content\Tiles\9.xnb
-Content\Fonts\Times New Roman.xnb
 Content\Tiles\101.xnb
 Content\Tiles\103.xnb
 Content\Tiles\104.xnb
+Content\Tiles\0.xnb
+Content\Fonts\Times New Roman.xnb
 Content\Music\themesong.xnb
+Content\Video\Intro.xnb
+Content\Video\Intro.wmv
