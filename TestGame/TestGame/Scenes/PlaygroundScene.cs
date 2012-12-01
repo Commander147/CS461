@@ -89,12 +89,12 @@ namespace TestGame
                     spritebatch.Draw(background[i, j], new Rectangle(j * 16 * 3, i * 16 * 3, 16 * 3, 16 * 3), Color.White);
                 }
             }
-            for (int i = 0; i < 50; i++)
-            {
-                spritebatch.Draw(line, new Rectangle(0, 16 * i, _graphicsDevice.DisplayMode.Width, 1), Color.Black);
-                spritebatch.Draw(line, new Rectangle(16 * i, 0, 1, _graphicsDevice.DisplayMode.Height), Color.Black);
+            //for (int i = 0; i < 50; i++)
+            //{
+            //    spritebatch.Draw(line, new Rectangle(0, 16 * i, _graphicsDevice.DisplayMode.Width, 1), Color.Black);
+            //    spritebatch.Draw(line, new Rectangle(16 * i, 0, 1, _graphicsDevice.DisplayMode.Height), Color.Black);
 
-            }
+            //}
             //spritebatch.Draw(background, new Rectangle(0, 0, background.Width * 3, background.Height * 3), Color.White);
             spritebatch.End();
             monsterSprite.Draw(gametime);
