@@ -19,6 +19,8 @@ namespace TestGame
         private SpriteBatch spritebatch;
         private SceneManager sceneManager;
         private Texture2D line;
+        private ButtonState oldState;
+        private ButtonState newState;
         private Texture2D[,] background = new Texture2D[10,15];
         private int[,] mapdata = {{101,26,26,26,26,26,26,26,26,26,26,8,9,10,11},
                                   {24,0,0,0,0,0,0,0,0,0,0,12,13,14,15},
@@ -103,16 +105,19 @@ namespace TestGame
 
         public override void Update(GameTime gametime)
         {
+            newState = Mouse.GetState().LeftButton;
             monsterSprite.Update(gametime);
             if (monsterSprite.position.X == 624 && monsterSprite.position.Y == 144)
             {
                 sceneManager.removeScene(this);
                 monsterSprite.position = new Vector2(32 * 3, 32 * 3);
             }
-            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+            if (Mouse.GetState().LeftButton == ButtonState.Released && oldState == ButtonState.Pressed)
             {
-                Console.WriteLine(Mouse.GetState().X + " " + Mouse.GetState().Y);
+                monsterSprite.move(new Vector2((Mouse.GetState().X/48) %16,(Mouse.GetState().Y/48) %16));
+                //Console.WriteLine( + " " + );
             }
+            oldState = newState;
         }
     }
 }
