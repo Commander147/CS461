@@ -2,99 +2,68 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace TestGame
 {
     class Monster
     {
-        private int hunger;
-        private int thurst;
+        private int _hunger;
+        private int _thurst;
         private string _name;
-        private byte _level;
-        private float _curHP = 100.00;
-        private float _maxWeight;
+        private int _level = 1;
+        private double _curHP = 100.0;
+        private List<Monster> _stats = new List<Monster>();
 
-        public float CurHP
+#region hunger, thurst, name, level, and HP
+        public double CurHP
         {
             get { return _curHP; }
-            set
-            {
-                if (_type > Traits.Character)
-                    _curHP = value;
-            }
+            set { _curHP = value;}
         }
-        
-
-        public short Age
+        public int Thurst
         {
-            get { return _age; }
-            set { _age = value; }
+            get { return _thurst; }
+            set { _thurst = value; }
         }
-        public string RaceID
+        public int Hunger
         {
-            get { return _raceID; }
-            set { _raceID = value; }
+            get { return _hunger; }
+            set { _hunger = value; }
         }
-        public List<MonsterStat> Stats
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        public int Level
+        {
+            get { return _level; }
+            set { _level = value; }
+        }
+        public List<Monster> Stats
         {
             get { return _stats; }
             set { _stats = value; }
         }
+#endregion
 
+        public Monster()
+        {
+                  
+             TaskManager Tasks = new TaskManager();
+        }
+        public ArrayList Status_Add
+        {
+           ArrayList status = new ArrayList();
 
-        
+        }
         public bool IsAlive
         {
             get { return _curHP > 0; }
         }
-        
 
-        public Monster()
-        {
-            _stats = new List<MonsterStat>();
-        }
-        
-        public int MaxWeight()
-        {
-            int str = 0;
-            //find the strength stat
-            foreach (MonsterStat stat in _stats)
-            {
-                if (stat.StatName.ToLower() == "strength")
-                {
-                    str = stat.CurrentValue;
-                    break;
-                }
-            }
-            return str * 3;
-        }
-        
-        public List<MonsterSpell> GetPageSpells(int page)
-        {
-            List<MonsterSpell> spells = new List<MonsterSpell>();
-            foreach (int key in _spellbook.Keys)
-            {
-                if (_spellbook[key] == page)
-                    spells.Add(_spells[key]);
-            }
-            return spells;
-        }
-
-        public void MoveSpell(int id, int page)
-        {
-            //check to see if page has an empty spot
-            int count = 0;
-            foreach (int key in _spellbook.Keys)
-            {
-                if (_spellbook[key] == page)
-                    count++;
-            }
-            if (count < Spell.SpellsPerPage)
-                _spellbook[id] = page;
-        }
-
-
-        //public void poop()
+         //public void poop()
         //{
         //    if (Monster.hunger >= .9 && 
         //}

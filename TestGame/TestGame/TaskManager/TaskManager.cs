@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 namespace TestGame
-{x
+{
     class TaskManager
     {
 
@@ -22,6 +22,7 @@ namespace TestGame
         public TaskManager()
         {
             prioityQueue[0] = new ArrayList();
+
         }
 
         public bool taskIsEmpty()
