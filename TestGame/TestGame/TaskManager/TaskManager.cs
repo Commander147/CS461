@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 namespace TestGame
-{
+{x
     class TaskManager
     {
 
@@ -21,11 +21,7 @@ namespace TestGame
 
         public TaskManager()
         {
-            
-            Console.WriteLine(prioityQueue.Length);
             prioityQueue[0] = new ArrayList();
-            prioityQueue[0].Add(1231);
-            Console.WriteLine(prioityQueue[0]);
         }
 
         public bool taskIsEmpty()
@@ -33,45 +29,44 @@ namespace TestGame
             return (prioityQueue[0].Count == 0 && prioityQueue[1].Count == 0 && prioityQueue[2].Count == 0);
         }
 
-        //public void taskAdd(int rank, Task task)
-        //{
-        //    for (int i = 0; i < prioityQueue[rank].Count; i++)
-        //    {
-        //        if (prioityQueue[rank][i].internalPriority <= task.internalPriority)
-        //        {
-        //            prioityQueue[rank].Insert(i, task);
-        //            break;
-        //        }
-        //    }
-        //}
+        public void taskAdd(int rank, Task task)
+        {
+            for (int i = 0; i < prioityQueue[rank].Count; i++)
+            {
+                if (prioityQueue[rank][i].internalPriority <= task.internalPriority)
+                {
+                    prioityQueue[rank].Insert(i, task);
+                    break;
+                }
+            }
+        }
 
-        //public ArrayList getTask()
-        //{
-        //    bool foundWaiting = false;
-        //    List<int> destinationList = new List<int>();
-        //    int rank = 0;
-        //    for (int i = 0; i < prioityQueue.Count(); i++)
-        //    {
-        //        if (foundWaiting == false)
-        //        {
-        //            if (prioityQueue[rank][i].currentStatus == Task.taskStatus.waiting)
-        //            {
-        //                foundWaiting = true;
-        //                destinationList.Add(rank);
-        //                destinationList.Add(i);
-        //            }
-        //            if (prioityQueue[rank][i].currentStatus == Task.taskStatus.executing)
-        //            {
-        //                destinationList.Add(rank);
-        //                destinationList.Add(i);
-        //                break;
-        //            }
-        //            rank++;
-        //        }
-        //    }
-        //    return destinationList;
-        //}
-        //public void checkQueue() { }
+        public ArrayList getTask()
+        {
+            bool foundWaiting = false;
+            List<int> destinationList = new List<int>();
+            int rank = 0;
+            for (int i = 0; i < prioityQueue.Count(); i++)
+            {
+                if (foundWaiting == false)
+                {
+                    if (prioityQueue[rank][i].currentStatus == Task.taskStatus.waiting)
+                    {
+                        foundWaiting = true;
+                        destinationList.Add(rank);
+                        destinationList.Add(i);
+                    }
+                    if (prioityQueue[rank][i].currentStatus == Task.taskStatus.executing)
+                    {
+                        destinationList.Add(rank);
+                        destinationList.Add(i);
+                        break;
+                    }
+                    rank++;
+                }
+            }
+            return destinationList;
+        }
 
         //public void taskRemove(int rank, Task task)
         //{
