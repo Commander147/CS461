@@ -27,6 +27,17 @@ namespace TestGame
         private bool keepmoving = false;
         private int[,] movedata;
         private State status = new State();
+        private Vector2 destination = new Vector2();
+        private bool automove = false;
+
+        public void move(Vector2 dest)
+        {
+            dest.X = dest.X % 16 * 48;
+            dest.Y = dest.Y % 16 * 48;
+            Console.WriteLine(dest);
+            destination = dest;
+            automove = true;
+        }
 
         enum State
         {
@@ -90,7 +101,37 @@ namespace TestGame
                         {
                             status = State.MoveDown;
                         }
-                        
+                        else if (automove)
+                        {
+                            if (position.X < destination.X)
+                            {
+                                status = State.MoveRight;
+                            }
+                            else if (position.X == destination.X){
+                            }
+                            else
+                            {
+                                status = State.MoveLeft;
+                            }
+
+                            if (position.Y < destination.Y)
+                            {
+                                status = State.MoveDown;
+                            }
+                            else if (position.Y == destination.Y)
+                            {
+                            }
+                            else
+                            {
+                                status = State.MoveUp;
+                            }
+
+                            if (position.X == destination.X && position.Y == destination.Y)
+                            {
+                                automove = false;
+                            }
+
+                        }
                         break;
                     }
 
