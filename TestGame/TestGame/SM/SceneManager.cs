@@ -11,39 +11,39 @@ using Microsoft.Xna.Framework.Media;
 
 namespace TestGame
 {
-    class SceneManager
+    public class SceneManager
     {
-       //Refferes to the current Scene 
-       public bool exit = false;
-       private Scene _currentScene;
-       public Scene currentScene
-       {
-           get
-           {
-               return _currentScene;
-           }
-           set
-           {
-               _currentScene = value;
-           }
-       }
-       private ContentManager _contentManager;
-       public ContentManager contentManager
-       {
-           get
-           {
-               return _contentManager;
-           }
-       }
-       private GraphicsDevice _graphicsDevice;
-       public GraphicsDevice graphicsDevice
-       {
-           get
-           {
-               return _graphicsDevice;
-           }
-       }
-       //Stack of All of our Scenes
+        //Refferes to the current Scene 
+        public bool exit = false;
+        private Scene _currentScene;
+        public Scene currentScene
+        {
+            get
+            {
+                return _currentScene;
+            }
+            set
+            {
+                _currentScene = value;
+            }
+        }
+        private ContentManager _contentManager;
+        public ContentManager contentManager
+        {
+            get
+            {
+                return _contentManager;
+            }
+        }
+        private GraphicsDevice _graphicsDevice;
+        public GraphicsDevice graphicsDevice
+        {
+            get
+            {
+                return _graphicsDevice;
+            }
+        }
+        //Stack of All of our Scenes
         private ArrayList sceneStack = new ArrayList();
 
         public SceneManager(ContentManager cm, GraphicsDevice gd)
@@ -52,9 +52,10 @@ namespace TestGame
             _graphicsDevice = gd;
         }
 
-        public void addScene(Scene newScene){
+        public void addScene(Scene newScene)
+        {
             sceneStack.Add(newScene);
-            _currentScene = (Scene)sceneStack[sceneStack.Count-1];
+            _currentScene = (Scene)sceneStack[sceneStack.Count - 1];
         }
 
         public void removeScene(Scene oldScene)
@@ -70,6 +71,11 @@ namespace TestGame
             }
         }
 
+        public Scene getScene()
+        {
+            return currentScene;
+        }
+
         public void UnloadContent()
         {
             currentScene.UnloadContent();
@@ -77,7 +83,8 @@ namespace TestGame
 
         public void Update(GameTime gametime)
         {
-            if(_currentScene != null){
+            if (_currentScene != null)
+            {
                 _currentScene.Update(gametime);
             }
         }
@@ -86,7 +93,7 @@ namespace TestGame
         {
             //if (_currentScene != null)
             //{
-                _currentScene.Draw(gametime);
+            _currentScene.Draw(gametime);
             //}
         }
     }

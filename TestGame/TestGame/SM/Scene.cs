@@ -12,7 +12,7 @@ using System.Collections;
 
 namespace TestGame
 {
-   abstract class Scene 
+   public abstract class Scene 
     {
         public int height;
         public int width;

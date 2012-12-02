@@ -12,16 +12,20 @@ using System.Collections;
 
 namespace TestGame
 {
-    class PlaygroundScene : Scene
+    public class PlaygroundScene : Scene
     {
+        Pathfinder pathfinder;
         //private Texture2D background;
-        private Sprite monsterSprite;
+        SpriteManager spriteManager;
+        //private Sprite monsterSprite;
+        //private Texture2D background;
         private SpriteBatch spritebatch;
         private SceneManager sceneManager;
         private Texture2D line;
         private ButtonState oldState;
         private ButtonState newState;
         private Texture2D[,] background = new Texture2D[10,15];
+
         private int[,] mapdata = {{101,26,26,26,26,26,26,26,26,26,26,8,9,10,11},
                                   {24,0,0,0,0,0,0,0,0,0,0,12,13,14,15},
                                   {24,0,0,0,0,0,0,0,0,0,0,16,17,18,19},
@@ -33,7 +37,8 @@ namespace TestGame
                                   {24,0,0,0,0,0,0,0,0,0,0,0,0,0,25},
                                   {103,26,26,26,26,26,26,26,26,26,26,26,26,26,104}
                                  };
-        private int[,] movedata = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+
+        public int[,] movedata = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                                   {1,0,0,0,0,0,0,0,0,0,0,1,1,1,1},
                                   {1,0,0,0,0,0,0,0,0,0,0,1,1,1,1},
                                   {1,0,0,0,0,0,0,0,0,0,0,1,1,0,1},
@@ -44,6 +49,24 @@ namespace TestGame
                                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                                   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
                                  };
+
+        public int Width
+        {
+            get { return movedata.GetLength(1); }
+        }
+
+        public int Height
+        {
+            get { return movedata.GetLength(0); }
+        }
+
+        public int GetIndex(int cellX, int cellY)
+        {
+            //if (cellX < 0 || cellX > Width - 1 || cellY < 0 || cellY > Height - 1)
+            //  return 0;
+
+            return movedata[cellY, cellX];
+        }
 
         public PlaygroundScene(int x, int y, int h, int w,ContentManager cm, GraphicsDevice gd, SceneManager sm)
         {
@@ -59,12 +82,44 @@ namespace TestGame
             
         }
         
-        private void Initilize(){
+        private void Initilize() 
+        {
             spritebatch = new SpriteBatch(_graphicsDevice);
-            monsterSprite = new Sprite(32*3,32*3,0,contentManager,graphicsDevice,movedata);
+            spriteManager = new SpriteManager(spritebatch, graphicsDevice, contentManager);
+
+            pathfinder = new Pathfinder(this);
+            List<Vector2> path = pathfinder.FindPath(new Point(3, 2), new Point(9, 8));
+
+            spriteManager.AddSprite(new Human(
+                contentManager.Load<Texture2D>(@"Sprites/player"),
+                new Point(42, 42),
+                new Vector2(32 * 3, 32 * 3),
+                Vector2.Zero,
+                10, 0, movedata, sceneManager));
+
+            /*
+            spriteManager.AddSprite(new ComputerAI(
+                contentManager.Load<Texture2D>(@"Sprites/player"),
+                new Point(42, 42),
+                new Vector2(32 * 3, 32 * 3),
+                Vector2.Zero,
+                10, 0, movedata, sceneManager, path));
+            */
+
+            //spriteManager.AddSprite(new Poop(contentManager.Load<Texture2D>(@"Sprites/poop"), new Vector2(50 * 3, 50 * 3)));
+
+            foreach (Vector2 point in path)
+            {
+                Console.WriteLine(point);
+            }
+
+
+         /*
+            spritebatch = new SpriteBatch(_graphicsDevice);
+            monsterSprite = new Sprite(32*3,32*3,0,contentManager,graphicsDevice,movedata);*/ 
             line = new Texture2D(_graphicsDevice, 1, 1);
             line.SetData(new[] { Color.Black });
-            
+           
         }
 
         private void LoadContent()
@@ -100,11 +155,15 @@ namespace TestGame
             }
             //spritebatch.Draw(background, new Rectangle(0, 0, background.Width * 3, background.Height * 3), Color.White);
             spritebatch.End();
-            monsterSprite.Draw(gametime);
+            //monsterSprite.Draw(gametime);
+            spriteManager.Draw(gametime);
+
         }
 
         public override void Update(GameTime gametime)
         {
+            spriteManager.Update(gametime);
+            /*
             newState = Mouse.GetState().LeftButton;
             monsterSprite.Update(gametime);
             if (monsterSprite.position.X == 624 && monsterSprite.position.Y == 144)
@@ -118,6 +177,7 @@ namespace TestGame
                 //Console.WriteLine( + " " + );
             }
             oldState = newState;
+             */
         }
     }
 }

@@ -113,6 +113,15 @@
     <Compile Include="Scenes\PlaygroundScene.cs" />
     <Compile Include="TaskManager\Task.cs" />
     <Compile Include="TaskManager\TaskManager.cs" />
+    <None Include="Monster\Monster.cs" />
+    <Compile Include="Pathfinder\Pathfinder.cs" />
+    <Compile Include="Scenes\PlaygroundScene.cs" />
+    <None Include="TaskManager\Task.cs" />
+    <None Include="TaskManager\TaskManager.cs" />
+    <Compile Include="Sprite\ComputerAI.cs" />
+    <Compile Include="Sprite\Human.cs" />
+    <Compile Include="Sprite\Poop.cs" />
+    <Compile Include="Sprite\SpriteManager.cs" />
     <Compile Include="Unused\Element.cs" />
     <Compile Include="SM\Scene.cs" />
     <Compile Include="SM\SceneManager.cs" />
