@@ -6,51 +6,47 @@ using System.Collections;
 
 namespace TestGame
 {
+    
+    public class MonsterStats{
+        
+        public int hunger {
+            set {hunger = value;}
+            get {return hunger;}
+        };
+        public int thirst{
+            set {thirst = value;}
+            get {return thirst;}
+        };
+        public int exp{
+            set {exp = value;}
+            get {return exp;}
+        };
+        public int hp{
+            set {hp = value;}
+            get {return hp;}
+        };
+        public string name{
+            set {name = value;}
+            get {return name;}
+        };
+        
+        public MonsterStats(int hung,int t, int xp,int hp, string name){
+            this.hunger = hung;
+            this.thirst = t;
+            this.exp = xp;
+            this.hp = hp;
+            this.name = name;
+        }
+    }
+    
+    
     class Monster
     {
-        private int _hunger;
-        private int _thurst;
-        private string _name;
-        private int _level = 1;
-        private double _curHP = 100.0;
-        private List<Monster> _stats = new List<Monster>();
+        MonsterStatus Status;
 
-#region hunger, thurst, name, level, and HP
-        public double CurHP
+        public Monster(int hung,int t, int xp,int hp, string name)
         {
-            get { return _curHP; }
-            set { _curHP = value;}
-        }
-        public int Thurst
-        {
-            get { return _thurst; }
-            set { _thurst = value; }
-        }
-        public int Hunger
-        {
-            get { return _hunger; }
-            set { _hunger = value; }
-        }
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        public int Level
-        {
-            get { return _level; }
-            set { _level = value; }
-        }
-        public List<Monster> Stats
-        {
-            get { return _stats; }
-            set { _stats = value; }
-        }
-#endregion
-
-        public Monster()
-        {
-                  
+             Status = new MonsterStatus(hung,t, xp,hp,name);     
              TaskManager Tasks = new TaskManager();
         }
         public ArrayList Status_Add
@@ -60,7 +56,7 @@ namespace TestGame
         }
         public bool IsAlive
         {
-            get { return _curHP > 0; }
+            get { return status.hp > 0; }
         }
 
          //public void poop()
