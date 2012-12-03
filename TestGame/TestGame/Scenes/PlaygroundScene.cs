@@ -17,14 +17,12 @@ namespace TestGame
         Pathfinder pathfinder;
         //private Texture2D background;
         SpriteManager spriteManager;
-        //private Sprite monsterSprite;
-        //private Texture2D background;
         private SpriteBatch spritebatch;
         private SceneManager sceneManager;
         private Texture2D line;
-        private ButtonState oldState;
-        private ButtonState newState;
         private Texture2D[,] background = new Texture2D[10,15];
+        Vector2 AIPos;
+        List<Vector2> path = new List<Vector2>();
 
         private int[,] mapdata = {{101,26,26,26,26,26,26,26,26,26,26,8,9,10,11},
                                   {24,0,0,0,0,0,0,0,0,0,0,12,13,14,15},
@@ -79,7 +77,6 @@ namespace TestGame
             _graphicsDevice = gd;
             Initilize();
             LoadContent();
-            
         }
         
         private void Initilize() 
@@ -88,7 +85,58 @@ namespace TestGame
             spriteManager = new SpriteManager(spritebatch, graphicsDevice, contentManager);
 
             pathfinder = new Pathfinder(this);
-            List<Vector2> path = pathfinder.FindPath(new Point(3, 2), new Point(9, 8));
+            List<Vector2> tempPath = pathfinder.FindPath(new Point(1, 1), new Point(9, 8));
+
+            foreach (Vector2 point in tempPath)
+            {
+                Console.WriteLine("Old Path: " + point);
+            }
+
+            /*
+            foreach (Vector2 point in tempPath)
+            {
+                AIPos = new Vector2((point.X / 48) % 16, (point.Y / 48) % 16);
+                Console.WriteLine("AI: " + AIPos);
+                break;
+            }
+            */
+            foreach (Vector2 point in tempPath)
+            {
+                int pointX = (int)point.X; 
+                int pointY = (int)point.Y;
+                int tempX, tempY;
+
+                if (((point.X % 48) != 0) || (((point.Y % 48) != 0)))
+                {
+                    tempX = (int)(point.X % 48);
+                    tempY = (int)(point.Y % 48);
+
+                    Console.WriteLine("point = {X:" + pointX + " Y:" + pointY + "} X = " + tempX + " Y = " + tempY);
+
+                    if (tempX == 32)
+                    {
+                        pointX += 16;
+                    }
+
+                    if (tempX == 16)
+                        pointX -= 16;
+
+                    if (tempY == 32)
+                    {
+                        pointY += 16;
+                    }
+
+                    if (tempY == 16)
+                        pointY -= 16;
+                    
+                    path.Add(new Vector2(pointX, pointY));
+                }                
+            }
+
+            foreach (Vector2 point in path)
+            {
+                Console.WriteLine("New Path: " + point);
+            }
 
             spriteManager.AddSprite(new Human(
                 contentManager.Load<Texture2D>(@"Sprites/player"),
@@ -96,27 +144,19 @@ namespace TestGame
                 new Vector2(32 * 3, 32 * 3),
                 Vector2.Zero,
                 10, 0, movedata, sceneManager));
-
-            /*
+            
             spriteManager.AddSprite(new ComputerAI(
                 contentManager.Load<Texture2D>(@"Sprites/player"),
                 new Point(42, 42),
-                new Vector2(32 * 3, 32 * 3),
+                AIPos,
                 Vector2.Zero,
                 10, 0, movedata, sceneManager, path));
-            */
+            
 
             //spriteManager.AddSprite(new Poop(contentManager.Load<Texture2D>(@"Sprites/poop"), new Vector2(50 * 3, 50 * 3)));
 
-            foreach (Vector2 point in path)
-            {
-                Console.WriteLine(point);
-            }
+            
 
-
-         /*
-            spritebatch = new SpriteBatch(_graphicsDevice);
-            monsterSprite = new Sprite(32*3,32*3,0,contentManager,graphicsDevice,movedata);*/ 
             line = new Texture2D(_graphicsDevice, 1, 1);
             line.SetData(new[] { Color.Black });
            
@@ -155,7 +195,6 @@ namespace TestGame
             }
             //spritebatch.Draw(background, new Rectangle(0, 0, background.Width * 3, background.Height * 3), Color.White);
             spritebatch.End();
-            //monsterSprite.Draw(gametime);
             spriteManager.Draw(gametime);
 
         }
@@ -163,21 +202,6 @@ namespace TestGame
         public override void Update(GameTime gametime)
         {
             spriteManager.Update(gametime);
-            /*
-            newState = Mouse.GetState().LeftButton;
-            monsterSprite.Update(gametime);
-            if (monsterSprite.position.X == 624 && monsterSprite.position.Y == 144)
-            {
-                sceneManager.removeScene(this);
-                monsterSprite.position = new Vector2(32 * 3, 32 * 3);
-            }
-            if (Mouse.GetState().LeftButton == ButtonState.Released && oldState == ButtonState.Pressed)
-            {
-                monsterSprite.move(new Vector2((Mouse.GetState().X/48) %16,(Mouse.GetState().Y/48) %16));
-                //Console.WriteLine( + " " + );
-            }
-            oldState = newState;
-             */
         }
     }
 }

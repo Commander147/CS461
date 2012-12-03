@@ -285,7 +285,7 @@ namespace TestGame
                 }                    
 
             }
-                    Console.WriteLine(status);    
+                   // Console.WriteLine(status);    
             
 
 
@@ -296,6 +296,15 @@ namespace TestGame
             }
 
             //base.Update(gameTime);
+        }
+
+        public void move(Vector2 dest)
+        {
+            dest.X = dest.X % 16 * 48;
+            dest.Y = dest.Y % 16 * 48;
+            Console.WriteLine(dest);
+            destination = dest;
+            automove = true;
         }
     }
 }

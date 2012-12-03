@@ -258,20 +258,15 @@ namespace TestGame
             }
             oldState = newState;
 
-
-
-
             newMouseState = Mouse.GetState().LeftButton;
-            //Update(gametime);
 
             if (Mouse.GetState().LeftButton == ButtonState.Released && oldMouseState == ButtonState.Pressed)
             {
                 move(new Vector2((Mouse.GetState().X / 48) % 16, (Mouse.GetState().Y / 48) % 16));
                 //Console.WriteLine( + " " + );
             }
+
             oldMouseState = newMouseState;
-
-
 
             if (position.X == 624 && position.Y == 144)
             {
@@ -281,7 +276,6 @@ namespace TestGame
 
             //if (newState.IsKeyDown(Keys.A))
               //  poop.Draw(spriteBatch, position);
-             
         }
 
         public void move(Vector2 dest)
