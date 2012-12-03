@@ -15,13 +15,12 @@ namespace TestGame
     
     class Monster
     {
-        Vector2 location;
-        ArrayList location_log = new ArrayList[location];
-        MonsterStatus Status;
+        Sprite location;
+        MonsterStats Status;
 
         public Monster(int hung,int t, int xp,int hp, string name)
         {
-             Status = new MonsterStatus(hung,t, xp,hp,name);     
+            Status = new MonsterStats(hung, t, xp, hp, name);     
              TaskManager Tasks = new TaskManager();
         }
         public bool IsAlive
@@ -30,8 +29,9 @@ namespace TestGame
         }
         public void poop()
         {
-            if (Status.hunger >= 80 && Status.thirst >= 60)
-                location_log 
+           // if (Status.hunger >= 80 && Status.thirst >= 60)
+                //Tasks.
+                
         }
 
 

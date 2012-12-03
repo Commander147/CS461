@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
@@ -15,28 +15,27 @@ namespace TestGame
     class TaskManager
     {
 
-        private ArrayList[] prioityQueue = new ArrayList[3];
+        private ArrayList[] tasks = new ArrayList[3];
         private int total_size;
-        private Vector2 currentTask = new Vector2();
+        private Sprite location;
 
         public TaskManager()
         {
-            prioityQueue[0] = new ArrayList();
-
+            Console.WriteLine(tasks);   
         }
 
         public bool taskIsEmpty()
         {
-            return (prioityQueue[0].Count == 0 && prioityQueue[1].Count == 0 && prioityQueue[2].Count == 0);
+            return (tasks[0].Count == 0 && tasks[1].Count == 0 && tasks[2].Count == 0);
         }
 
         public void taskAdd(int rank, Task task)
         {
-            for (int i = 0; i < prioityQueue[rank].Count; i++)
+            for (int i = 0; i < tasks[rank].Count; i++)
             {
-                if (prioityQueue[rank][i].internalPriority <= task.internalPriority)
+                if (tasks[rank][i].internalPriorty <= task.internalPriorty)
                 {
-                    prioityQueue[rank].Insert(i, task);
+                    tasks[rank].Insert(i, task);
                     break;
                 }
             }
@@ -47,17 +46,17 @@ namespace TestGame
             bool foundWaiting = false;
             List<int> destinationList = new List<int>();
             int rank = 0;
-            for (int i = 0; i < prioityQueue.Count(); i++)
+            for (int i = 0; i < tasks.Count(); i++)
             {
                 if (foundWaiting == false)
                 {
-                    if (prioityQueue[rank][i].currentStatus == Task.taskStatus.waiting)
+                    if (tasks[rank][i].currentStatus == Task.taskStatus.waiting)
                     {
                         foundWaiting = true;
                         destinationList.Add(rank);
                         destinationList.Add(i);
                     }
-                    if (prioityQueue[rank][i].currentStatus == Task.taskStatus.executing)
+                    if (tasks[rank][i].currentStatus == Task.taskStatus.executing)
                     {
                         destinationList.Add(rank);
                         destinationList.Add(i);
