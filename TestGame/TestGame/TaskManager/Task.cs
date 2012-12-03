@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,34 +8,34 @@ namespace TestGame
 {
     class Task
     {
-        ArrayList[] listofParams;
-        status myStatus;
-        internalPriorty myinternalPriorty;
-        type myType;
+        public enum Type
+        {
+            Poop,
+            Move
+        }
+        public enum Status
+        {
+            Wait,
+            Exe,
+            Done
+        }
+        public Type type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+        public Status status
+        {
+            get { return status; }
+            set { status = value; }
+        }
+        public ArrayList paramaters = new ArrayList();
 
-        public enum status
+        public Task(Task.Type type, ArrayList paramaters)
         {
-            waiting,
-            executing,
-            done
-        }
-        public enum internalPriorty
-        {
-            low,
-            mid,
-            high
-        }
-        public enum type
-        {
-            poop,
-            food
-        }
-        public Task(Task.status s, Task.type t, Task.internalPriorty i, ArrayList[] param)
-        {
-            this.myStatus = s;
-            this.myType = t;
-            this.myinternalPriorty = i;
-            listofParams = param;
+            this.status = Status.Wait;
+            this.type = type;
+            this.paramaters = paramaters;
         }
     }
 }
