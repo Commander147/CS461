@@ -109,11 +109,12 @@
   <ItemGroup>
     <Compile Include="Game1.cs" />
     <Compile Include="Menus\MainMenu.cs" />
-    <None Include="Monster\Monster.cs" />
+    <Compile Include="Monster\Monster.cs" />
+    <Compile Include="Monster\MonsterStatus.cs" />
     <Compile Include="Pathfinder\Pathfinder.cs" />
     <Compile Include="Scenes\PlaygroundScene.cs" />
-    <None Include="TaskManager\Task.cs" />
-    <None Include="TaskManager\TaskManager.cs" />
+    <Compile Include="TaskManager\Task.cs" />
+    <Compile Include="TaskManager\TaskManager.cs" />
     <Compile Include="Sprite\ComputerAI.cs" />
     <Compile Include="Sprite\Human.cs" />
     <Compile Include="Sprite\Poop.cs" />
