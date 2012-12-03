@@ -133,6 +133,15 @@ namespace TestGame
                 }                
             }
 
+        
+            foreach (Vector2 point in path)
+            {
+                AIPos = new Vector2(point.X, point.Y);
+                Console.WriteLine("AI: " + AIPos);
+                break;
+            }
+
+
             foreach (Vector2 point in path)
             {
                 Console.WriteLine("New Path: " + point);

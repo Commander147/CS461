@@ -21,7 +21,7 @@ namespace TestGame
         public Monster(int hung,int t, int xp,int hp, string name)
         {
             Status = new MonsterStats(hung, t, xp, hp, name);     
-             TaskManager Tasks = new TaskManager();
+             //TaskManager Tasks = new TaskManager();
         }
         public bool IsAlive
         {
