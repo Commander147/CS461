@@ -14,8 +14,8 @@ namespace TestGame
     class ComputerAI : Sprite
     {
         private Queue<Vector2> waypoints = new Queue<Vector2>();
-        private Vector2 oldPosition;
-        private float speed = 2.5f;
+        private Vector2 destination = new Vector2();
+        private float speed = 2.0f;
         SceneManager sceneManager;
 
         public ComputerAI(Texture2D image, Point playerFrameSize, Vector2 position, Vector2 velocity,
@@ -24,7 +24,6 @@ namespace TestGame
             this.image = image;
             this.playerFrameSize = playerFrameSize;
             this.position = position;
-            oldPosition = position;
             this.velocity = velocity;
             this.collisionOffset = collisionOffset;
             this.type = type;
@@ -44,7 +43,7 @@ namespace TestGame
 
         public float DistanceToDestination
         {
-            get { return Vector2.Distance(position, waypoints.Peek()); }
+            get { return Vector2.Distance(destination, waypoints.Peek()); }
         }
 
         public void SetWaypoints(Queue<Vector2> waypoints)
@@ -52,259 +51,191 @@ namespace TestGame
             foreach (Vector2 waypoint in waypoints)
                 this.waypoints.Enqueue(waypoint);
 
-            this.position = this.waypoints.Dequeue();
+            this.destination = this.waypoints.Dequeue();
         }
 
         public override void Update(GameTime gameTime)
         {
+            Console.WriteLine(status);
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            switch (status)
+            {
 
-                    switch (status)
+                case State.Waiting:
                     {
-
-                        case State.MoveRight:
+                        if (position.X == destination.X && position.Y != destination.Y)
+                        {
+                            if (destination.Y > position.Y)
                             {
-                                if (walking)
+                                direction = 0; //down
+                                status = State.MoveDown;
+                                position = destination;
+                                walking = true;
+                                keepmoving = true;
+                            }
+                            else
+                            {
+                                direction = 3; //up
+                                status = State.MoveUp;
+                                position = destination;
+                                walking = true;
+                                keepmoving = true;
+                            }
+                        }
+                        else if (position.Y == destination.Y && position.X != destination.X)
+                        {
+                            if (destination.X > position.X)
+                            {
+                                direction = 2; //right
+                                status = State.MoveRight;
+                                position = destination;
+                                walking = true;
+                                keepmoving = true;
+                            }
+                            else
+                            {
+                                direction = 1; //left
+                                status = State.MoveLeft;
+                                position = destination;
+                                walking = true;
+                                keepmoving = true;
+                            }
+                        }
+                        else if (position.X == destination.X && position.Y == destination.Y)
+                            status = State.Waiting;
+                        break;
+                    }
+                case State.MoveRight:
+                    {
+                        if (walking)
+                        {
+                            if (keepmoving)
+                            {
+                                position.X += 4;
+                                if (timer > 100f)
                                 {
-                                    if (movedata[(int)(((oldPosition.Y) / 48) % 16), (int)(((oldPosition.X + 48) / 48) % 16)] == 0 && keepmoving)
-                                    {
-                                        oldPosition.X += 4;
-                                        keepmoving = true;
-                                        if (timer > 100f)
-                                        {
-                                            curFrame++;
-                                            timer = 0f;
-                                        }
-                                        if (curFrame == 4)
-                                        {
-                                            curFrame = 0;
-                                        }
-                                        if ((int)oldPosition.X % 48 == 0)
-                                        {
-                                            keepmoving = false;
-                                            walking = false;
-                                            status = State.Waiting;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        keepmoving = false;
-                                        walking = false;
-                                        //status = State.Waiting;
-                                    }
+                                    curFrame++;
+                                    timer = 0f;
                                 }
-                                else
+                                if (curFrame == 4)
                                 {
                                     curFrame = 0;
-                                    direction = 2;
-                                    walking = true;
-                                    keepmoving = true;
                                 }
-                                break;
+
+                                keepmoving = false;
+                                walking = false;
+                                status = State.Waiting;
+
                             }
-                        case State.MoveDown:
+                        }
+                        break;
+                    }
+                case State.MoveDown:
+                    {
+                        if (walking)
+                        {
+                            if (keepmoving)
                             {
-                                if (walking)
+                                position.Y += 4;
+                                if (timer > 100f)
                                 {
-                                    if (movedata[(int)(((oldPosition.Y + 48) / 48) % 16), (int)((oldPosition.X / 48) % 16)] == 0 && keepmoving)
-                                    {
-                                        oldPosition.Y += 4;
-                                        keepmoving = true;
-                                        if (timer > 100f)
-                                        {
-                                            curFrame++;
-                                            timer = 0f;
-                                        }
-                                        if (curFrame == 4)
-                                        {
-                                            curFrame = 0;
-                                        }
-                                        if ((int)oldPosition.Y % 48 == 0)
-                                        {
-                                            keepmoving = false;
-                                            walking = false;
-                                            status = State.Waiting;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        keepmoving = false;
-                                        walking = false;
-                                        //status = State.Waiting;
-                                    }
+                                    curFrame++;
+                                    timer = 0f;
                                 }
-                                else
+                                if (curFrame == 4)
                                 {
                                     curFrame = 0;
-                                    direction = 0;
-                                    walking = true;
-                                    keepmoving = true;
                                 }
-                                break;
+
+                                keepmoving = false;
+                                walking = false;
+                                status = State.Waiting;
+
                             }
-                        case State.MoveUp:
+                        }
+                        break;
+                    }
+                case State.MoveUp:
+                    {
+                        if (walking)
+                        {
+                            if (keepmoving)
                             {
-                                if (walking)
+                                position.Y -= 4;
+                                keepmoving = true;
+                                if (timer > 100f)
                                 {
-                                    if (movedata[(int)(((oldPosition.Y - 1) / 48) % 16), (int)((oldPosition.X / 48) % 16)] == 0 && keepmoving)
-                                    {
-                                        oldPosition.Y -= 4;
-                                        keepmoving = true;
-                                        if (timer > 100f)
-                                        {
-                                            curFrame++;
-                                            timer = 0f;
-                                        }
-                                        if (curFrame == 4)
-                                        {
-                                            curFrame = 0;
-                                        }
-                                        if ((int)oldPosition.Y % 48 == 0)
-                                        {
-                                            keepmoving = false;
-                                            walking = false;
-                                            status = State.Waiting;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        curFrame = 0;
-                                        keepmoving = false;
-                                        walking = false;
-                                        status = State.Waiting;
-                                    }
+                                    curFrame++;
+                                    timer = 0f;
                                 }
-                                else
+                                if (curFrame == 4)
                                 {
                                     curFrame = 0;
-                                    direction = 3;
-                                    walking = true;
-                                    keepmoving = true;
                                 }
-                                break;
+                              
+                                keepmoving = false;
+                                walking = false;
+                                status = State.Waiting;
+                                
                             }
-                        case State.MoveLeft:
+                        }
+                        break;
+                    }
+                case State.MoveLeft:
+                    {
+                        if (walking)
+                        {
+                            if (keepmoving)
                             {
-                                if (walking)
+                                position.X -= 4;
+                                keepmoving = true;
+                                if (timer > 100f)
                                 {
-                                    if (movedata[(int)(((oldPosition.Y) / 48) % 16), (int)(((oldPosition.X - 1) / 48) % 16)] == 0 && keepmoving)
-                                    {
-                                        oldPosition.X -= 4;
-                                        keepmoving = true;
-                                        if (timer > 100f)
-                                        {
-                                            curFrame++;
-                                            timer = 0f;
-                                        }
-                                        if (curFrame == 4)
-                                        {
-                                            curFrame = 0;
-                                        }
-                                        if ((int)oldPosition.X % 48 == 0)
-                                        {
-                                            keepmoving = false;
-                                            walking = false;
-                                            status = State.Waiting;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        keepmoving = false;
-                                        walking = false;
-                                        //status = State.Waiting;
-                                    }
+                                    curFrame++;
+                                    timer = 0f;
                                 }
-                                else
+                                if (curFrame == 4)
                                 {
                                     curFrame = 0;
-                                    direction = 1;
-                                    walking = true;
-                                    keepmoving = true;
                                 }
-                                break;
+                             
+                                keepmoving = false;
+                                walking = false;
+                                status = State.Waiting;
                             }
-
-                        case State.Waiting:
-                            {
-                                if (waypoints.Count > 0)
-                                {
-                                    //if (DistanceToDestination < 1f)
-                                    //{
-                                        //position = waypoints.Peek();
-                                        //Console.WriteLine(waypoints.Count);
-                                        position = waypoints.Dequeue();
-                                    //}
-
-                                    //else
-                                    //{
-                                    //    Vector2 newDirection = waypoints.Peek() - position;
-                                    //    newDirection.Normalize();
-
-                                    //    //velocity = Vector2.Multiply(newDirection, speed);
-
-                                    //    //position += velocity;
-
-                                    //}
-                                        walking = true;
-                                        curFrame = 0;
-                                        //keepmoving = true;
-                                    if (oldPosition.X == position.X && oldPosition.Y != position.Y)
-                                    {
-                                        if (position.Y > oldPosition.Y)
-                                        {
-                                            direction = 0; //down
-                                            status = State.MoveDown;
-                                            oldPosition = position;
-                                        }
-                                        else
-                                        {
-                                            direction = 3; //up
-                                            status = State.MoveUp;
-                                            oldPosition = position;
-                                        }
-                                    }
-                                    else if (oldPosition.Y == position.Y && oldPosition.X != position.X)
-                                    {
-                                        if (position.X > oldPosition.X)
-                                        {
-                                            direction = 2; //right
-                                            status = State.MoveRight;
-                                            oldPosition = position;
-                                        }
-                                        else
-                                        {
-                                            direction = 1; //left
-                                            status = State.MoveLeft;
-                                            oldPosition = position;
-                                        }
-                                    }
-                                    else if (oldPosition.X == position.X && oldPosition.Y == position.Y)
-                                        status = State.Waiting;
-                             }
-                                break;
-                }                    
-
+               
+                        }
+                        break;
+                    }
             }
-                   // Console.WriteLine(status);    
-            
 
+            if (waypoints.Count > 0)
+            {
+                //destination = waypoints.Dequeue();
+                if (DistanceToDestination < 1f)
+                {
+                    destination = waypoints.Peek();
+                    //Console.WriteLine(waypoints.Count);
+                    destination = waypoints.Dequeue();
+                }
+
+                else
+                {
+                    Vector2 newDirection = waypoints.Peek() - destination;
+                    newDirection.Normalize();
+
+                    velocity = Vector2.Multiply(newDirection, speed);
+
+                    destination += velocity;
+                }
+            }
 
             if (position.X == 624 && position.Y == 144)
             {
                 sceneManager.removeScene(sceneManager.getScene());
-                position = new Vector2(32 * 3, 32 * 3);
+                destination = new Vector2(32 * 3, 32 * 3);
             }
 
-            //base.Update(gameTime);
-        }
-
-        public void move(Vector2 dest)
-        {
-            dest.X = dest.X % 16 * 48;
-            dest.Y = dest.Y % 16 * 48;
-            Console.WriteLine(dest);
-            destination = dest;
-            automove = true;
         }
     }
 }

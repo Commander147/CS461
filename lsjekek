@@ -1,0 +1,166 @@
+[33mcommit 7173cf3adaf12b82c249e8648708cd05895930eb[m
+Merge: cb583ce 1e972f2
+Author: Saul G <seguardado88@gmail.com>
+Date:   Sun Dec 2 20:10:59 2012 -0800
+
+    Merge branch 'master' of https://github.com/Commander147/CS461
+    
+    Conflicts:
+    	TestGame/TestGame/Monster/Monster.cs
+    	TestGame/TestGame/TaskManager/TaskManager.cs
+
+[1mdiff --cc TestGame/TestGame/Monster/Monster.cs[m
+[1mindex 974980e,4175b57..0000000[m
+[1mdeleted file mode 100644,100644[m
+[1m--- a/TestGame/TestGame/Monster/Monster.cs[m
+[1m+++ /dev/null[m
+[36m@@@ -1,48 -1,101 +1,0 @@@[m
+[31m- ﻿using System;[m
+[31m- using System.Collections.Generic;[m
+[31m- using System.Collections;[m
+[31m- using System.Linq;[m
+[31m- using Microsoft.Xna.Framework;[m
+[31m- using Microsoft.Xna.Framework.Audio;[m
+[31m- using Microsoft.Xna.Framework.Content;[m
+[31m- using Microsoft.Xna.Framework.GamerServices;[m
+[31m- using Microsoft.Xna.Framework.Graphics;[m
+[31m- using Microsoft.Xna.Framework.Input;[m
+[31m- using Microsoft.Xna.Framework.Media;[m
+[31m- [m
+[31m- namespace TestGame[m
+[31m- {[m
+[31m-     [m
+[31m-     class Monster[m
+[31m-     {[m
+[31m-         Sprite location;[m
+[31m-         MonsterStats Status;[m
+[31m- [m
+[31m-         public Monster(int hung,int t, int xp,int hp, string name)[m
+[31m-         {[m
+[31m-             Status = new MonsterStats(hung, t, xp, hp, name);     [m
+[31m-              //TaskManager Tasks = new TaskManager();[m
+[31m-         }[m
+[31m-         public bool IsAlive[m
+[31m-         {[m
+[31m-             get { return Status.hp > 0; }[m
+[31m-         }[m
+[31m-         public void poop()[m
+[31m-         {[m
+[31m-            // if (Status.hunger >= 80 && Status.thirst >= 60)[m
+[31m-                 //Tasks.[m
+[31m-                 [m
+[31m-         }[m
+[31m- [m
+[31m- [m
+[31m-         //public void Update(TaskManager task)[m
+[31m-         //{[m
+[31m-         //    if (task.taskIsEmpty == false)[m
+[31m-         //    {[m
+[31m-         //        if (task.currentQueue[m
+[31m- [m
+[31m- [m
+[31m-         //}[m
+[31m-         [m
+[31m-     }[m
+[31m- }[m
+[31m -using System;[m
+[31m -using System.Collections.Generic;[m
+[31m -using System.Collections;[m
+[31m -using System.Linq;[m
+[31m -using System.Text;[m
+[31m -using System.Collections;[m
+[31m -using Microsoft.Xna.Framework;[m
+[31m -using Microsoft.Xna.Framework.Audio;[m
+[31m -using Microsoft.Xna.Framework.Content;[m
+[31m -using Microsoft.Xna.Framework.GamerServices;[m
+[31m -using Microsoft.Xna.Framework.Graphics;[m
+[31m -using Microsoft.Xna.Framework.Input;[m
+[31m -using Microsoft.Xna.Framework.Media;[m
+[31m -[m
+[31m -namespace TestGame[m
+[31m -{[m
+[31m -    class Monster[m
+[31m -    {[m
+[31m -        private MonsterStats stats;[m
+[31m -        private Sprite sprite;[m
+[31m -        private TaskManager TM = new TaskManager();[m
+[31m -        private SpriteManager SM;[m
+[31m -        Task currenttask;[m
+[31m -[m
+[31m -        public Monster(MonsterStats stats, Sprite sprite, SpriteManager sm)[m
+[31m -        {[m
+[31m -            this.stats = stats;[m
+[31m -            this.sprite = sprite;[m
+[31m -            this.SM = sm;[m
+[31m -            currenttask.status = Task.Status.Done;[m
+[31m -        }[m
+[31m -[m
+[31m -        public void Update(GameTime gametime)[m
+[31m -        {[m
+[31m -            if (TM.taskIsEmpty() == false)[m
+[31m -            {[m
+[31m -                if (currenttask.status == Task.Status.Done)[m
+[31m -                {[m
+[31m -                    currenttask = TM.GetTask();[m
+[31m -                }[m
+[31m -[m
+[31m -                switch (currenttask.type)[m
+[31m -                {[m
+[31m -                    case Task.Type.Poop:[m
+[31m -                        {[m
+[31m -                            ExePoop(currenttask.paramaters);[m
+[31m -                            currenttask.status = Task.Status.Done;[m
+[31m -                            TM.RemoveTask();[m
+[31m -                            break;[m
+[31m -                        }[m
+[31m -                    case Task.Type.Move:[m
+[31m -                        {[m
+[31m -                            if (currenttask.status == Task.Status.Exe)[m
+[31m -                            {[m
+[31m -                                if(sprite.position == (Vector2)currenttask.paramaters[0]){[m
+[31m -                                    currenttask.status = Task.Status.Done;[m
+[31m -                                }[m
+[31m -                            }[m
+[31m -                            else if(currenttask.status == Task.Status.Done){[m
+[31m -                                TM.RemoveTask();[m
+[31m -                            }[m
+[31m -                            else[m
+[31m -                            {[m
+[31m -                                currenttask.status = Task.Status.Exe;[m
+[31m -                                ExeMove(currenttask.paramaters);[m
+[31m -                            }[m
+[31m -                            break;[m
+[31m -                        }[m
+[31m -                }[m
+[31m -            }[m
+[31m -        }[m
+[31m -[m
+[31m -        public bool isAlive(){[m
+[31m -            return stats.hp > 0;[m
+[31m -        }[m
+[31m -[m
+[31m -        public void Poop(ArrayList paramaters)[m
+[31m -        {[m
+[31m -            if (stats.hunger <= 30 && stats.thirst <= 40)[m
+[31m -            {[m
+[31m -                TM.AddTask(new Task(Task.Type.Poop, paramaters));[m
+[31m -            }[m
+[31m -        }[m
+[31m -[m
+[31m -        private void ExePoop(ArrayList paramaters)[m
+[31m -        {[m
+[31m -            spritemanager.add(new Poop((Vector2)paramaters[0]));[m
+[31m -        }[m
+[31m -[m
+[31m -        public void Move(ArrayList paramaters)[m
+[31m -        {[m
+[31m -            TM.AddTask(new Task(Task.Type.Move, paramaters));[m
+[31m -        }[m
+[31m -[m
+[31m -        private void ExeMove(ArrayList paramaters)[m
+[31m -        {[m
+[31m -[m
+[31m -        }[m
+[31m -[m
+[31m -    }[m
+[31m -}[m

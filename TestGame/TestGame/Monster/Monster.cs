@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -15,12 +16,14 @@ namespace TestGame
 {
     class Monster
     {
+        private MonsterStats stats;
         private MonsterStatus stats;
         private Sprite sprite;
         private TaskManager TM = new TaskManager();
         private SpriteManager SM;
         Task currenttask;
 
+        public Monster(MonsterStats stats, Sprite sprite, SpriteManager sm)
         public Monster(MonsterStatus stats, Sprite sprite, SpriteManager sm)
         {
             this.stats = stats;
@@ -76,6 +79,7 @@ namespace TestGame
 
         public void Poop(ArrayList paramaters)
         {
+            if (stats.hunger <= 30 && stats.thirst <= 40)
             if (stats.hp <= 30 && stats.Thirst <= 40)
             {
                 TM.AddTask(new Task(Task.Type.Poop, paramaters));
@@ -84,6 +88,7 @@ namespace TestGame
 
         private void ExePoop(ArrayList paramaters)
         {
+            spritemanager.add(new Poop((Vector2)paramaters[0]));
             SM.AddSprite(new Poop((Vector2)paramaters[0]));
         }
 
