@@ -47,7 +47,7 @@ namespace TestGame
             //add Menu screen here
             player = new VideoPlayer();
             video = Content.Load<Video>("Video/Intro");
-            //player.Play(video);
+            player.Play(video);
         }
 
         protected override void LoadContent()

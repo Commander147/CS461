@@ -14,29 +14,27 @@ using System.Diagnostics;
 
 namespace TestGame
 {
-    class Poop
+    class Poop : Sprite
     {
         ArrayList poopList = new ArrayList();
-        Texture2D poopImage;
-        //Vector2 poopPos;
-
-        public Poop(Texture2D i) 
-        {
-            poopImage = i;
-
+        private Texture2D _sprite;
+        public Texture2D sprite{
+            get {return _sprite;}
+            set {_sprite = value;}
         }
 
-        public void addPoop(Vector2 p) 
+        public Poop(Vector2 pos) 
         {
-           // poopPos = p;
+            position = pos;
         }
 
-        public void Update(GameTime gameTime) { }
+        public override void Update(GameTime gameTime) { 
+        }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 poopPos)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(poopImage, poopPos, Color.White);
+            spriteBatch.Draw(sprite, position, Color.White);
             spriteBatch.End();
         }
     }

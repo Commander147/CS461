@@ -19,22 +19,24 @@ namespace TestGame
             Exe,
             Done
         }
+        private Type _type;
         public Type type
         {
-            get { return type; }
-            set { type = value; }
+            get { return _type; }
+            set { _type = value; }
         }
+        private Status _status;
         public Status status
         {
-            get { return status; }
-            set { status = value; }
+            get { return _status; }
+            set { _status = value; }
         }
         public ArrayList paramaters = new ArrayList();
 
         public Task(Task.Type type, ArrayList paramaters)
         {
-            this.status = Status.Wait;
-            this.type = type;
+            this._status = Status.Wait;
+            this._type = type;
             this.paramaters = paramaters;
         }
     }

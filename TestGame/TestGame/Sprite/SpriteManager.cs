@@ -31,7 +31,16 @@ namespace TestGame
         }
 
         public void AddSprite(Sprite newSprite){
-            spriteList.Add(newSprite);
+            if (newSprite.GetType() == typeof(Poop))
+            {
+                ((Poop)(newSprite)).sprite = contentManager.Load<Texture2D>(@"Sprites/Poop");
+                spriteList.Add(newSprite);
+            }
+            else
+            {
+                spriteList.Add(newSprite);
+            }
+            
         }
 
         public void RemoveSprite(Sprite oldSprite)

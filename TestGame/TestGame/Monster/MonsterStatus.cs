@@ -1,46 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System.Collections;
 
 namespace TestGame
 {
-    class MonsterStats
+    class MonsterStatus
     {
-
-        public int hunger
+        private int _Thirst;
+        public int Thirst
         {
-            set { hunger = value; }
-            get { return hunger; }
+            get { return _Thirst; }
+            set { _Thirst = value; }
+            
         }
-        public int thirst
-        {
-            set { thirst = value; }
-            get { return thirst; }
-        }
+        private int _exp;
         public int exp
         {
-            set { exp = value; }
-            get { return exp; }
+            get { return _exp; }
+            set { _exp = value; }
+
         }
+        private int _hp;
         public int hp
         {
-            set { hp = value; }
-            get { return hp; }
-        }
-        public string name
-        {
-            set { name = value; }
-            get { return name; }
+            get { return _hp; }
+            set { _hp = value; }
+
         }
 
-        public MonsterStats(int hung, int t, int xp, int hp, string name)
+        private string _name;
+        public string name
         {
-            this.hunger = hung;
-            this.thirst = t;
-            this.exp = xp;
-            this.hp = hp;
-            this.name = name;
+            get { return _name; }
+            set { _name = value; }
+
+        }
+
+        public MonsterStatus( int t, int xp, int hp, string name)
+        {
+            this._Thirst = t;
+            this._exp = xp;
+            this._hp = hp;
+            this._name = name;
         }
     }
 }

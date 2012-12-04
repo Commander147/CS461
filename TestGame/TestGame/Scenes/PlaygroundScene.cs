@@ -22,6 +22,7 @@ namespace TestGame
         private Texture2D line;
         private Texture2D[,] background = new Texture2D[10,15];
         Vector2 AIPos;
+        Monster M1;
         List<Vector2> path = new List<Vector2>();
 
         private int[,] mapdata = {{101,26,26,26,26,26,26,26,26,26,26,8,9,10,11},
@@ -138,13 +139,17 @@ namespace TestGame
                 Console.WriteLine("New Path: " + point);
             }
 
-            spriteManager.AddSprite(new Human(
+            Human h1 = new Human(
                 contentManager.Load<Texture2D>(@"Sprites/player"),
                 new Point(42, 42),
                 new Vector2(32 * 3, 32 * 3),
                 Vector2.Zero,
-                10, 0, movedata, sceneManager));
-            
+                10, 0, movedata, sceneManager);
+            spriteManager.AddSprite(h1);
+            Console.WriteLine("TESSSSSSSSSST");
+            MonsterStatus ms = new MonsterStatus(0, 0, 0, @"Monster One");
+            M1 = new Monster(ms, h1, spriteManager);
+
             spriteManager.AddSprite(new ComputerAI(
                 contentManager.Load<Texture2D>(@"Sprites/player"),
                 new Point(42, 42),
@@ -201,6 +206,10 @@ namespace TestGame
 
         public override void Update(GameTime gametime)
         {
+            M1.Update(gametime);
+            ArrayList data = new ArrayList();
+            data.Add(new Vector2(50, 50));
+            M1.Poop(data);
             spriteManager.Update(gametime);
         }
     }
