@@ -274,8 +274,6 @@ namespace TestGame
                 position = new Vector2(32 * 3, 32 * 3);
             }
 
-            //if (newState.IsKeyDown(Keys.A))
-              //  poop.Draw(spriteBatch, position);
         }
 
         public void move(Vector2 dest)

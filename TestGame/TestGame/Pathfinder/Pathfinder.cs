@@ -53,17 +53,17 @@ namespace TestGame
             searchNodes = new SearchNode[levelWidth, levelHeight];
 
             // creates a search node for each of the tiles in our map
-            for (int x = 0; x < 15; x++)
+            for (int x = 0; x < levelWidth; x++)
             {
-                for (int y = 0; y < 10; y++)
+                for (int y = 0; y < levelHeight; y++)
                 {
                     //Create a search node to represent this tile.
                     SearchNode node = new SearchNode();
                     node.Position = new Point(x, y);
-                    Console.WriteLine(map.movedata.Length);
-                    // Player can only walk on grass tiles.
-                    node.Walkable = map.movedata[y, x] == 0;
 
+                    // Player can only walk on grass tiles.
+                    //node.Walkable = map.movedata[y, x] == 0;
+                    node.Walkable = map.GetIndex(x, y) == 0;
                     // only store nodes that can be walked on.
                     if (node.Walkable == true)
                     {
@@ -167,8 +167,8 @@ namespace TestGame
             // Reverse the path and transform into world space.
             for (int i = closedList.Count - 1; i >= 0; i--)
             {
-                finalPath.Add(new Vector2(closedList[i].Position.X * 32,
-                                          closedList[i].Position.Y * 32));
+                finalPath.Add(new Vector2(closedList[i].Position.X * 48,
+                                          closedList[i].Position.Y * 48));
             }
 
             return finalPath;
