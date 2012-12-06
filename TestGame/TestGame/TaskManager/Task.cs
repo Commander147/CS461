@@ -13,24 +13,28 @@ namespace TestGame
             Poop,
             Move
         }
+
         public enum Status
         {
             Wait,
             Exe,
             Done
         }
+
         private Type _type;
         public Type type
         {
             get { return _type; }
             set { _type = value; }
         }
+
         private Status _status;
         public Status status
         {
             get { return _status; }
             set { _status = value; }
         }
+
         public ArrayList paramaters = new ArrayList();
 
         public Task(Task.Type type, ArrayList paramaters)

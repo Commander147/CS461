@@ -26,14 +26,14 @@ namespace TestGame
         List<Vector2> path = new List<Vector2>();
 
         private int[,] mapdata = {{101,26,26,26,26,26,26,26,26,26,26,8,9,10,11},
-                                  {24,0,27,0,0,0,0,0,0,27,0,12,13,14,15},
+                                  {24,0,27,0,0,0,0,0,0,27,6,12,13,14,15},
                                   {24,0,27,0,0,0,0,0,0,27,0,16,17,18,19},
                                   {24,0,27,0,27,27,27,27,0,27,0,20,21,22,23},
                                   {24,0,0,0,27,0,0,27,0,27,0,0,0,0,1},
                                   {24,27,27,27,27,0,0,0,0,27,0,0,0,0,25},
-                                  {24,0,0,0,0,0,0,27,27,27,0,0,0,0,25},
-                                  {24,0,0,0,0,0,0,27,27,27,0,0,0,0,25},
-                                  {24,0,0,0,0,0,0,0,0,6,0,0,0,0,25},
+                                  {24,0,0,0,0,0,0,27,27,27,27,27,0,0,25},
+                                  {24,0,27,27,27,27,27,27,27,27,27,0,0,0,25},
+                                  {24,0,0,0,0,0,0,0,0,0,0,0,0,0,25},
                                   {103,26,26,26,26,26,26,26,26,26,26,26,26,26,104}
                                  };
 
@@ -43,8 +43,8 @@ namespace TestGame
                                   {1,0,1,0,1,1,1,1,0,1,0,1,1,0,1},
                                   {1,0,0,0,1,0,0,1,0,1,0,0,0,0,1},
                                   {1,1,1,1,1,0,0,0,0,1,0,0,0,0,1},
-                                  {1,0,0,0,0,0,0,1,1,1,0,0,0,0,1},
-                                  {1,0,0,0,0,0,0,1,1,1,0,0,0,0,1},
+                                  {1,0,0,0,0,0,0,1,1,1,1,1,0,0,1},
+                                  {1,0,1,1,1,1,1,1,1,1,1,0,0,0,1},
                                   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                                   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
                                  };
@@ -86,7 +86,7 @@ namespace TestGame
             spriteManager = new SpriteManager(spritebatch, graphicsDevice, contentManager);
 
             pathfinder = new Pathfinder(this);
-            List<Vector2> path = pathfinder.FindPath(new Point(1, 1), new Point(9, 8));
+            List<Vector2> path = pathfinder.FindPath(new Point(1, 1), new Point(10, 1));
 
             foreach (Vector2 point in path)
             {
@@ -165,9 +165,9 @@ namespace TestGame
 
         private void LoadContent()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     String tile = "Tiles/" + mapdata[i,j];
                     background[i, j] = _contentManager.Load<Texture2D>(tile);
@@ -181,9 +181,9 @@ namespace TestGame
         public override void Draw(GameTime gametime)
         {
             spritebatch.Begin();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     spritebatch.Draw(background[i, j], new Rectangle(j * 16 * 3, i * 16 * 3, 16 * 3, 16 * 3), Color.White);
                 }

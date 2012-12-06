@@ -232,7 +232,7 @@ namespace TestGame
 
             if (position.X == 624 && position.Y == 144)
             {
-                sceneManager.removeScene(sceneManager.getScene());
+                sceneManager.removeScene(sceneManager.currentScene);
                 destination = new Vector2(32 * 3, 32 * 3);
             }
 

@@ -263,14 +263,13 @@ namespace TestGame
             if (Mouse.GetState().LeftButton == ButtonState.Released && oldMouseState == ButtonState.Pressed)
             {
                 move(new Vector2((Mouse.GetState().X / 48) % 16, (Mouse.GetState().Y / 48) % 16));
-                //Console.WriteLine( + " " + );
             }
 
             oldMouseState = newMouseState;
 
             if (position.X == 624 && position.Y == 144)
             {
-                sceneManager.removeScene(sceneManager.getScene());
+                sceneManager.removeScene(sceneManager.currentScene);
                 position = new Vector2(32 * 3, 32 * 3);
             }
 
