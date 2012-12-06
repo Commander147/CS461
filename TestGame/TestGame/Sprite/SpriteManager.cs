@@ -34,11 +34,11 @@ namespace TestGame
             if (newSprite.GetType() == typeof(Poop))
             {
                 ((Poop)(newSprite)).sprite = contentManager.Load<Texture2D>(@"Sprites/Poop");
-                spriteList.Add(newSprite);
+                spriteList.Insert(0,newSprite);
             }
             else
             {
-                spriteList.Add(newSprite);
+                spriteList.Insert(0,newSprite);
             }
             
         }
@@ -88,7 +88,7 @@ namespace TestGame
                 {
                     if (r.Intersects(t) && r != t)
                     {
-                        Debug.WriteLine("COLLISION!!!!!!!!!!!!!!!!!");
+                       // Debug.WriteLine("COLLISION!!!!!!!!!!!!!!!!!");
                     }
                 }
             }
@@ -96,9 +96,24 @@ namespace TestGame
 
         public void Draw(GameTime gameTime)
         {
-            foreach (Sprite s in spriteList)
+            foreach (Sprite s in spriteList.ToArray())
             {
-                s.Draw(gameTime, spriteBatch);
+                if (s.GetType() == typeof(Poop))
+                {
+                    if (((Poop)s).hidden)
+                    {
+                        spriteList.Remove(s);
+                    }
+                    else
+                    {
+                        s.Draw(gameTime, spriteBatch);
+                    }
+                }
+                else
+                {
+                    s.Draw(gameTime, spriteBatch);
+                }
+                
             }
         }
     }

@@ -33,9 +33,10 @@ namespace TestGame
 
         public void RemoveTask()
         {
+            //Console.WriteLine("Remove");
             if (taskIsEmpty() == false)
             {
-                TaskQueue.Remove(0);
+                TaskQueue.RemoveAt(0);
             }
         }
 

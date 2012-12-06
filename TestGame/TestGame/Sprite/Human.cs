@@ -285,7 +285,7 @@ namespace TestGame
         {
             dest.X = dest.X % 16 * 48;
             dest.Y = dest.Y % 16 * 48;
-            Console.WriteLine(dest);
+           // Console.WriteLine(dest);
             destination = dest;
             automove = true;
         }

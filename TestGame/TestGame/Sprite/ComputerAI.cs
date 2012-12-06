@@ -30,6 +30,9 @@ namespace TestGame
             this.movedata = movedata;
             sceneManager = sm;
             PassWaypoint(wp);
+            waypoints.Dequeue();
+            this.destination = waypoints.Peek();
+            Console.WriteLine(destination);
             status = State.Waiting;
         }
 
@@ -56,7 +59,7 @@ namespace TestGame
 
         public override void Update(GameTime gameTime)
         {
-            Console.WriteLine(status);
+            //Console.WriteLine(status);
             timer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             switch (status)
             {
@@ -69,7 +72,8 @@ namespace TestGame
                             {
                                 direction = 0; //down
                                 status = State.MoveDown;
-                                position = destination;
+                                //Console.WriteLine("What is here!");
+                                //position = destination;
                                 walking = true;
                                 keepmoving = true;
                             }
@@ -77,7 +81,7 @@ namespace TestGame
                             {
                                 direction = 3; //up
                                 status = State.MoveUp;
-                                position = destination;
+                                //position = destination;
                                 walking = true;
                                 keepmoving = true;
                             }
@@ -88,7 +92,7 @@ namespace TestGame
                             {
                                 direction = 2; //right
                                 status = State.MoveRight;
-                                position = destination;
+                                //position = destination;
                                 walking = true;
                                 keepmoving = true;
                             }
@@ -96,22 +100,30 @@ namespace TestGame
                             {
                                 direction = 1; //left
                                 status = State.MoveLeft;
-                                position = destination;
+                                //position = destination;
                                 walking = true;
                                 keepmoving = true;
                             }
                         }
                         else if (position.X == destination.X && position.Y == destination.Y)
+                        {
+                            if (waypoints.Count > 0)
+                            {
+                                destination = waypoints.Dequeue();
+                            }
                             status = State.Waiting;
+                        }
                         break;
                     }
+
                 case State.MoveRight:
                     {
                         if (walking)
                         {
-                            if (keepmoving)
+                            if (movedata[(int)(((position.Y) / 48) % 16), (int)(((position.X + 48) / 48) % 16)] == 0 && keepmoving)
                             {
                                 position.X += 4;
+                                keepmoving = true;
                                 if (timer > 100f)
                                 {
                                     curFrame++;
@@ -121,12 +133,26 @@ namespace TestGame
                                 {
                                     curFrame = 0;
                                 }
-
+                                if ((int)position.X % 48 == 0)
+                                {
+                                    keepmoving = false;
+                                    walking = false;
+                                    status = State.Waiting;
+                                }
+                            }
+                            else
+                            {
                                 keepmoving = false;
                                 walking = false;
                                 status = State.Waiting;
-
                             }
+                        }
+                        else
+                        {
+                            curFrame = 0;
+                            direction = 2;
+                            walking = true;
+                            keepmoving = true;
                         }
                         break;
                     }
@@ -134,9 +160,10 @@ namespace TestGame
                     {
                         if (walking)
                         {
-                            if (keepmoving)
+                            if (movedata[(int)(((position.Y + 48) / 48) % 16), (int)((position.X / 48) % 16)] == 0 && keepmoving)
                             {
                                 position.Y += 4;
+                                keepmoving = true;
                                 if (timer > 100f)
                                 {
                                     curFrame++;
@@ -146,12 +173,26 @@ namespace TestGame
                                 {
                                     curFrame = 0;
                                 }
-
+                                if ((int)position.Y % 48 == 0)
+                                {
+                                    keepmoving = false;
+                                    walking = false;
+                                    status = State.Waiting;
+                                }
+                            }
+                            else
+                            {
                                 keepmoving = false;
                                 walking = false;
                                 status = State.Waiting;
-
                             }
+                        }
+                        else
+                        {
+                            curFrame = 0;
+                            direction = 0;
+                            walking = true;
+                            keepmoving = true;
                         }
                         break;
                     }
@@ -159,7 +200,7 @@ namespace TestGame
                     {
                         if (walking)
                         {
-                            if (keepmoving)
+                            if (movedata[(int)(((position.Y - 1) / 48) % 16), (int)((position.X / 48) % 16)] == 0 && keepmoving)
                             {
                                 position.Y -= 4;
                                 keepmoving = true;
@@ -172,12 +213,27 @@ namespace TestGame
                                 {
                                     curFrame = 0;
                                 }
-                              
+                                if ((int)position.Y % 48 == 0)
+                                {
+                                    keepmoving = false;
+                                    walking = false;
+                                    status = State.Waiting;
+                                }
+                            }
+                            else
+                            {
+                                curFrame = 0;
                                 keepmoving = false;
                                 walking = false;
                                 status = State.Waiting;
-                                
                             }
+                        }
+                        else
+                        {
+                            curFrame = 0;
+                            direction = 3;
+                            walking = true;
+                            keepmoving = true;
                         }
                         break;
                     }
@@ -185,7 +241,7 @@ namespace TestGame
                     {
                         if (walking)
                         {
-                            if (keepmoving)
+                            if (movedata[(int)(((position.Y) / 48) % 16), (int)(((position.X - 1) / 48) % 16)] == 0 && keepmoving)
                             {
                                 position.X -= 4;
                                 keepmoving = true;
@@ -198,37 +254,158 @@ namespace TestGame
                                 {
                                     curFrame = 0;
                                 }
-                             
+                                if ((int)position.X % 48 == 0)
+                                {
+                                    keepmoving = false;
+                                    walking = false;
+                                    status = State.Waiting;
+                                }
+                            }
+                            else
+                            {
                                 keepmoving = false;
                                 walking = false;
                                 status = State.Waiting;
                             }
-               
+                        }
+                        else
+                        {
+                            curFrame = 0;
+                            direction = 1;
+                            walking = true;
+                            keepmoving = true;
                         }
                         break;
                     }
+
+                //case State.MoveRight:
+                //    {
+                //        if (walking)
+                //        {
+                //            if (keepmoving)
+                //            {
+                //                position.X += 4;
+                //                if (timer > 100f)
+                //                {
+                //                    curFrame++;
+                //                    timer = 0f;
+                //                }
+                //                if (curFrame == 4)
+                //                {
+                //                    curFrame = 0;
+                //                }
+
+                //                //keepmoving = false;
+                //                //walking = false;
+                //                status = State.Waiting;
+
+                //            }
+                //        }
+                //        break;
+                //    }
+                //case State.MoveDown:
+                //    {
+                //        if (walking)
+                //        {
+                //            if (keepmoving)
+                //            {
+                //                position.Y += 4;
+                //                if (timer > 100f)
+                //                {
+                //                    curFrame++;
+                //                    timer = 0f;
+                //                }
+                //                if (curFrame == 4)
+                //                {
+                //                    curFrame = 0;
+                //                }
+
+                //                //keepmoving = false;
+                //                //walking = false;
+                //                //Console.WriteLine("8TESSSSSSSST");
+                //                status = State.Waiting;
+
+                //            }
+                //        }
+                //        break;
+                //    }
+                //case State.MoveUp:
+                //    {
+                //        if (walking)
+                //        {
+                //            if (keepmoving)
+                //            {
+                //                position.Y -= 4;
+                //                keepmoving = true;
+                //                if (timer > 100f)
+                //                {
+                //                    curFrame++;
+                //                    timer = 0f;
+                //                }
+                //                if (curFrame == 4)
+                //                {
+                //                    curFrame = 0;
+                //                }
+                              
+                //                //keepmoving = false;
+                //                //walking = false;
+                //                status = State.Waiting;
+                                
+                //            }
+                //        }
+                //        break;
+                //    }
+                //case State.MoveLeft:
+                //    {
+                //        if (walking)
+                //        {
+                //            if (keepmoving)
+                //            {
+                //                position.X -= 4;
+                //                keepmoving = true;
+                //                if (timer > 100f)
+                //                {
+                //                    curFrame++;
+                //                    timer = 0f;
+                //                }
+                //                if (curFrame == 4)
+                //                {
+                //                    curFrame = 0;
+                //                }
+                             
+                //                //keepmoving = false;
+                //                //walking = false;
+                //                status = State.Waiting;
+                //            }
+               
+                //        }
+                //        break;
+                //    }
             }
 
-            if (waypoints.Count > 0)
-            {
-                //destination = waypoints.Dequeue();
-                if (DistanceToDestination < 1f)
-                {
-                    destination = waypoints.Peek();
-                    //Console.WriteLine(waypoints.Count);
-                    destination = waypoints.Dequeue();
-                }
+            
 
-                else
-                {
-                    Vector2 newDirection = waypoints.Peek() - destination;
-                    newDirection.Normalize();
+            //if (waypoints.Count > 0)
+            //{
+            //    destination = waypoints.Dequeue();
+            //    if (DistanceToDestination < 1f)
+            //    {
+            //        destination = waypoints.Peek();
+            //        Console.WriteLine(waypoints.Count);
+            //        destination = waypoints.Dequeue();
+            //    }
 
-                    velocity = Vector2.Multiply(newDirection, speed);
+            //    else
+            //    {
+            //        Vector2 newDirection = waypoints.Peek() - destination;
+            //        newDirection.Normalize();
 
-                    destination += velocity;
-                }
-            }
+            //        velocity = Vector2.Multiply(newDirection, speed);
+
+            //        destination = newDirection;
+            //        destination += velocity;
+            //    }
+            //}
 
             if (position.X == 624 && position.Y == 144)
             {

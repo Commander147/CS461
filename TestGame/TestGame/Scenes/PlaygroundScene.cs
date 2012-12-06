@@ -21,6 +21,7 @@ namespace TestGame
         private SceneManager sceneManager;
         private Texture2D line;
         private Texture2D[,] background = new Texture2D[10,15];
+        private float poopTimer = 0f;
         Vector2 AIPos;
         Monster M1;
         List<Vector2> path = new List<Vector2>();
@@ -90,13 +91,13 @@ namespace TestGame
 
             foreach (Vector2 point in path)
             {
-                Console.WriteLine("Path: " + point);
+                //Console.WriteLine("Path: " + point);
             }
 
             foreach (Vector2 point in path)
             {
                 AIPos = new Vector2(point.X, point.Y);
-                Console.WriteLine("AI: " + AIPos);
+                //Console.WriteLine("AI: " + AIPos);
                 break;
             }
 
@@ -147,7 +148,7 @@ namespace TestGame
             spriteManager.AddSprite(h1);
             Console.WriteLine("TESSSSSSSSSST");
             MonsterStatus ms = new MonsterStatus(0, 0, 0, @"Monster One");
-            M1 = new Monster(ms, h1, spriteManager);
+            M1 = new Monster(ms, ref h1, spriteManager);
 
             spriteManager.AddSprite(new ComputerAI(
                 contentManager.Load<Texture2D>(@"Sprites/player"),
@@ -202,10 +203,15 @@ namespace TestGame
 
         public override void Update(GameTime gametime)
         {
+            poopTimer += gametime.ElapsedGameTime.Milliseconds;
             M1.Update(gametime);
-            ArrayList data = new ArrayList();
-            data.Add(new Vector2(50, 50));
-            //M1.Poop(data);
+            //ArrayList data = new ArrayList();
+            //data.Add();
+            if(poopTimer >= 5000){
+                //Console.WriteLine(poopTimer);
+                poopTimer = 0f;
+                M1.Poop();   
+            }
             spriteManager.Update(gametime);
         }
     }

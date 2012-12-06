@@ -21,12 +21,21 @@ namespace TestGame
         private SpriteManager SM;
         Task currenttask;
 
-        public Monster(MonsterStatus stats, Sprite sprite, SpriteManager sm)
+        public Monster(MonsterStatus stats, ref Human sprite, SpriteManager sm)
         {
             this.stats = stats;
             this.sprite = sprite;
             this.SM = sm;
             currenttask = new Task(Task.Type.Poop,null);
+            currenttask.status = Task.Status.Done;
+        }
+
+        public Monster(MonsterStatus stats, Sprite sprite, SpriteManager sm)
+        {
+            this.stats = stats;
+            this.sprite = sprite;
+            this.SM = sm;
+            currenttask = new Task(Task.Type.Poop, null);
             currenttask.status = Task.Status.Done;
         }
 
@@ -52,11 +61,13 @@ namespace TestGame
                         {
                             if (currenttask.status == Task.Status.Exe)
                             {
-                                if(sprite.position == (Vector2)currenttask.paramaters[0]){
+                                if (sprite.position == (Vector2)currenttask.paramaters[0])
+                                {
                                     currenttask.status = Task.Status.Done;
                                 }
                             }
-                            else if(currenttask.status == Task.Status.Done){
+                            else if (currenttask.status == Task.Status.Done)
+                            {
                                 TM.RemoveTask();
                             }
                             else
@@ -68,6 +79,10 @@ namespace TestGame
                         }
                 }
             }
+            else
+            {
+                //Console.WriteLine("Waiting for task");
+            }
         }
 
         public bool isAlive()
@@ -75,10 +90,13 @@ namespace TestGame
             return stats.hp > 0;
         }
 
-        public void Poop(ArrayList paramaters)
+        public void Poop()
         {
             if (stats.hp <= 30 && stats.Thirst <= 40)
             {
+                ArrayList paramaters = new ArrayList();
+                Console.WriteLine(sprite.position);
+                paramaters.Add(sprite.position);
                 TM.AddTask(new Task(Task.Type.Poop, paramaters));
             }
         }
