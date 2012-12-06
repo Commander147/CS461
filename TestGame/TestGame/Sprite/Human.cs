@@ -20,6 +20,7 @@ namespace TestGame
         SceneManager sceneManager;
         private Vector2 destination = new Vector2();
         private bool automove = false;
+
         
         public Human(Texture2D image, Point playerFrameSize, Vector2 position, Vector2 velocity, 
             int collisionOffset, int type, int[,] movedata, SceneManager sm)
@@ -33,6 +34,11 @@ namespace TestGame
             this.movedata = movedata;
             sceneManager = sm;
             status = State.Waiting;
+        }
+
+        public override void Draw(GameTime gametime, SpriteBatch spriteBatch)
+        {
+            base.Draw(gametime, spriteBatch);
         }
 
         public override void Update(GameTime gametime)

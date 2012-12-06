@@ -74,7 +74,7 @@ namespace TestGame
         {
             //you need to loop through all your sprite objects and update them.
             //Boundary Detection Arraylist
-            ArrayList boundsList = new ArrayList();
+           ArrayList boundsList = new ArrayList();
             foreach (Sprite s in spriteList)
             {
                 s.Update(gameTime);

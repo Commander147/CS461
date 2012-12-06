@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
-using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -85,7 +84,11 @@ namespace TestGame
 
         private void ExePoop(ArrayList paramaters)
         {
+<<<<<<< HEAD
             SM.AddSprite(new Poop((Vector2)paramaters[0]));
+=======
+            //spritemanager.add(new Poop((Vector2)paramaters[0]));
+>>>>>>> 777a9017c16822711c85e3fa0d9ab5ce2a4d9659
         }
 
         public void Move(ArrayList paramaters)

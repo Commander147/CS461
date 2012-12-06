@@ -218,7 +218,7 @@ namespace TestGame
             M1.Update(gametime);
             ArrayList data = new ArrayList();
             data.Add(new Vector2(50, 50));
-            M1.Poop(data);
+            //M1.Poop(data);
             spriteManager.Update(gametime);
         }
     }
