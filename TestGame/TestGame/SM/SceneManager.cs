@@ -71,11 +71,6 @@ namespace TestGame
             }
         }
 
-        public Scene getScene()
-        {
-            return currentScene;
-        }
-
         public void UnloadContent()
         {
             currentScene.UnloadContent();

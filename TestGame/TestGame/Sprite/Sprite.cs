@@ -53,13 +53,12 @@ namespace TestGame
         }
 
         public Sprite() { }
+
         public Sprite(int x,int y, int type , ContentManager cm, GraphicsDevice gd,int [,] movedata){
             this.movedata = movedata;
             position = new Vector2(x, y);
             contentManager = cm;
             graphicsDevice = gd;
-            //Initilize();
-            //LoadContent();
             status = State.Waiting;
         }
 
@@ -74,20 +73,9 @@ namespace TestGame
             this.type = type;
             this.movedata = movedata;
             sceneManager = sm;
-            //Initialize();
-            //LoadContent();
             status = State.Waiting;
         }
 
-       /*
-        public void Initilize(){
-            spriteBatch = new SpriteBatch(graphicsDevice);
-        }
-        
-        public void LoadContent(){
-            image = contentManager.Load<Texture2D>(@"Sprites/player");
-        }
-        */
         public virtual void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -97,15 +85,10 @@ namespace TestGame
 
         public virtual void Update(GameTime gametime)
         {
-            //Console.WriteLine(position.X / (16 * 3));
-            //Console.WriteLine(movedata[(int)(position.Y/48 % 16), (int)(position.X/48 % 16)]);
             var newState = Keyboard.GetState();
             timer += (float)gametime.ElapsedGameTime.TotalMilliseconds;
-            //Console.WriteLine(status);
             switch (status)
-            {
-                //(movedata[(int)(((position.Y + 48) / 48) % 16), (int)((position.X / 48) % 16)] == 0)
-                
+            {                
                 case State.Waiting:
                     {
                         if (newState.IsKeyDown(Keys.Right))
